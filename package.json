@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "npm run compile && tsc",
-    "compile": "cashc ./contracts/LP.cash -o ./contracts/LP.json && cashc ./contracts/P2RS.cash -o ./contracts/P2RS.json && npm run lint-fix",
+    "compile": "cashc ./contracts/Main.cash -o ./contracts/Main.json && cashc ./contracts/Function.cash -o ./contracts/Function.json && npm run lint-fix",
     "postcompile": "node scripts/json-to-ts.js && npm run lint-fix",
     "prepublishOnly": "npm run build",
     "test": "NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest",

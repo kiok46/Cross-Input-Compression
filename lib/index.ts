@@ -1,4 +1,4 @@
-import LP from './compiled/LP.js';
-import P2RS from './compiled/P2RS.js';
+import Main from './compiled/Main.js';
+import Function from './compiled/Function.js';
 
-export { LP, P2RS };
+export { Main, Function };

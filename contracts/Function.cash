@@ -1,0 +1,44 @@
+pragma cashscript 0.11.4;
+
+// P2RS, Pay to Redeem Script
+contract P2RS(bytes redeemScript) {
+
+  function execute() {
+    require(tx.version == 2);
+
+    // LOOPED: This index will be updated using loops upgrade, it will go through all the inputs within the transaction
+    int idx = 1;
+
+    // Ensure it's a P2SH input
+    bytes lockingBytecode = tx.inputs[idx].lockingBytecode;
+    require(lockingBytecode.length == 35);
+    require(lockingBytecode.split(2)[0] == 0xaa20, "P2SH32 locking bytecode must start with OP_SHA256 <Push 32-bytes> (0xaa20)");
+    require(lockingBytecode.split(34)[1] == 0x87, "P2SH32 locking bytecode must end with OP_EQUAL (0x87)");
+
+    // Extract the redeem script
+    // 84 is the expected length of the unlocking bytecode based on how the main contract is constructed
+    bytes redeemScriptFromInput = tx.inputs[idx].unlockingBytecode.split(83 - redeemScript.length)[1];
+
+    if(redeemScriptFromInput == redeemScript) {
+      // Execute the function logic
+
+      // Trade logic
+      require(tx.outputs[idx].tokenCategory == tx.inputs[idx].tokenCategory);
+      require(tx.outputs[idx].lockingBytecode == tx.inputs[idx].lockingBytecode);
+    
+      int inputSat = tx.inputs[idx].value;
+      int outputSat = tx.outputs[idx].value;
+      int fee = (abs(outputSat - inputSat) * 3) / 1000;
+
+      int outputValueAfterFee = outputSat - fee;
+
+      int inputTokenValue = tx.inputs[idx].tokenAmount;
+      int outputTokenValue = tx.outputs[idx].tokenAmount;
+
+      int effectiveK = outputValueAfterFee * outputTokenValue;
+      int targetK = inputSat * inputTokenValue;
+
+      require(effectiveK >= targetK);
+    }
+  }
+}

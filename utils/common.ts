@@ -10,23 +10,14 @@ import {
 } from '@bitauth/libauth';
 import { SignatureTemplate, randomNFT } from 'cashscript';
 
-export const nameTokenCategory = randomNFT().category;
-export const reversedNameTokenCategory = binToHex(hexToBin(nameTokenCategory).reverse());
+export const baseTokenCategory1 = randomNFT().category;
+export const reversedbaseTokenCategory1 = binToHex(hexToBin(baseTokenCategory1).reverse());
 
-export const invalidNameTokenCategory = randomNFT().category;
-export const reversedInvalidNameTokenCategory = binToHex(hexToBin(invalidNameTokenCategory).reverse());
+export const baseTokenCategory2 = randomNFT().category;
+export const reversedbaseTokenCategory2 = binToHex(hexToBin(baseTokenCategory2).reverse());
 
-
-export const mockOptions =
-{
-	category: nameTokenCategory,
-	minStartingBid: 10000,
-	minBidIncreasePercentage: 5,
-	minWaitTime: 4194306,
-	tld: '.bch',
-};
 // @ts-ignore
-const seed = deriveSeedFromBip39Mnemonic('bitcann test seed');
+const seed = deriveSeedFromBip39Mnemonic(Math.random().toString());
 const rootNode = deriveHdPrivateNodeFromSeed(seed, { assumeValidity: true, throwErrors: true });
 const baseDerivationPath = "m/44'/145'/0'/0";
 
