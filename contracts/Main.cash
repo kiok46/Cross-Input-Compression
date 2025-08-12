@@ -1,6 +1,6 @@
 pragma cashscript 0.11.4;
 
-contract Main(bytes20 lpPKH, bytes tradeLockingBytecode) {
+contract Main(bytes20 lpPKH, bytes35 tradeLockingBytecode) {
   function withdraw(pubkey pk, sig s) {
     require(hash160(pk) == lpPKH);
     require(checkSig(s, pk));

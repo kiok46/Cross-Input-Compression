@@ -1,5 +1,8 @@
 pragma cashscript 0.11.4;
 
+// P2RSH, Pay to Redeem Script Hash
+// contract P2RSH(bytes32 redeemScriptHash) {
+
 // P2RS, Pay to Redeem Script
 contract P2RS(bytes redeemScript) {
 
@@ -7,6 +10,9 @@ contract P2RS(bytes redeemScript) {
     require(tx.version == 2);
 
     // LOOPED: This index will be updated using loops upgrade, it will go through all the inputs within the transaction
+    // int inputs = tx.inputs.length;
+    // for(int idx = 0; idx < inputs; idx++) {
+    // Since loops are not implemented in the Bitcoin Cash VM yet, this is just a proof of concept
     int idx = 1;
 
     // Ensure it's a P2SH input
@@ -17,7 +23,10 @@ contract P2RS(bytes redeemScript) {
 
     // Extract the redeem script
     // 84 is the expected length of the unlocking bytecode based on how the main contract is constructed
-    bytes redeemScriptFromInput = tx.inputs[idx].unlockingBytecode.split(83 - redeemScript.length)[1];
+    // The expected unlocking byytecode is
+
+    // OP_1 OP_PUSHDATA1 0x50 0x23 <35-bytes-lockingbytecode> 0x20 <20-bytes-pkh> <redeem script>
+    bytes redeemScriptFromInput = tx.inputs[idx].unlockingBytecode.split(60)[1];
 
     if(redeemScriptFromInput == redeemScript) {
       // Execute the function logic

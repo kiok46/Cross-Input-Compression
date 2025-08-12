@@ -11,7 +11,6 @@ const functionLockingBytecode = cashAddressToLockingBytecode(functionContract.ad
 const functionLockingBytecodeHex = binToHex(functionLockingBytecode.bytecode);
 const mainContract = new Contract(Main, [ alicePkh, functionLockingBytecodeHex ], { provider });
 
-
 let functionUtxo: Utxo;
 let lpUtxo: Utxo;
 let bobUtxo: Utxo;
