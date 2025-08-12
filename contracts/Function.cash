@@ -15,16 +15,13 @@ contract P2RS(bytes redeemScript) {
     // Since loops are not implemented in the Bitcoin Cash VM yet, this is just a proof of concept
     int idx = 1;
 
-    // Ensure it's a P2SH input
+    // Ensure it's a P2SH32 input
     bytes lockingBytecode = tx.inputs[idx].lockingBytecode;
     require(lockingBytecode.length == 35);
     require(lockingBytecode.split(2)[0] == 0xaa20, "P2SH32 locking bytecode must start with OP_SHA256 <Push 32-bytes> (0xaa20)");
     require(lockingBytecode.split(34)[1] == 0x87, "P2SH32 locking bytecode must end with OP_EQUAL (0x87)");
 
-    // Extract the redeem script
-    // 84 is the expected length of the unlocking bytecode based on how the main contract is constructed
-    // The expected unlocking byytecode is
-
+    // Extract the redeem script. The expected unlocking byytecode is
     // OP_1 OP_PUSHDATA1 0x50 0x23 <35-bytes-lockingbytecode> 0x20 <20-bytes-pkh> <redeem script>
     bytes redeemScriptFromInput = tx.inputs[idx].unlockingBytecode.split(60)[1];
 
