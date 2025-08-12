@@ -1,6 +1,6 @@
 # P2RS and P2RSH: Pay to Redeem Script, Pay to Redeem Script Hash
 
-This is an subset of **Contract as a Function** where the function contract is responsible for enforcing logic for other contracts.
+This is a subset of **Contract as a Function** where the function contract is responsible for enforcing logic for other contracts.
 
 The contracts in this repository are an example implementation of a CPMM (Constant Product Market Maker) contract, e.g. cauldron contract, where the function contract enforces logic once for all the CPMM inputs, resulting in a significant reduction in transaction size.
 
