@@ -7,10 +7,12 @@ contract Main(bytes20 lpPKH, bytes35 tradeLockingBytecode) {
   }
 
   function trade() {
+    // Approach 1: Using a static index
     require(tx.inputs[0].lockingBytecode == tradeLockingBytecode);
 
-    // Note: This does not need to be a static index, this function can also have looking for tradeLockingBytecode in all the inputs
-    // Example:
+    // Approach 2: Expect the index from unlockingbytecode i.e function trade(int idx) {
+
+    // Approach 3: Search for index
 
     // int inputs = tx.inputs.length;
     // bool found = false;

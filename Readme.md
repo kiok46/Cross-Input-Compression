@@ -1,12 +1,23 @@
-# P2RS and P2RSH: Pay to Redeem Script, Pay to Redeem Script Hash
+# Cross Input Compression using Loops
+
+Known ways:
+- Indexes: Concatinated Bytes of padded input indexes
+- P2RS: Pay to Redeem Script
+- P2RSH: Pay to Redeem Script Hash
 
 This is a subset of **Contract as a Function** where the function contract is responsible for enforcing logic for other contracts.
 
 The contracts in this repository are an example implementation of a CPMM (Constant Product Market Maker) contract, e.g. cauldron contract, where the function contract enforces logic once for all the CPMM inputs, resulting in a significant reduction in transaction size.
 
-The function contract uses introspection to read the unlocking bytecode of each input and checks if a redeem script matches to that of CPMM, if it does it enforces the trade logic.
+#### For Indexes:
 
-> **Note:** Only P2RS is implemented in the example
+The function contract expects padded input indexes as part of its unlocking bytecode and uses those to enforce the behavior of the specified inputs. Those inputs access the function contract's index and lockingbytecode to enforce the behaviour of the function contract.
+
+#### For P2RS and P2RSH:
+
+The function contract uses introspection to read the unlocking bytecode of each input and checks if a redeem script matches to that of CPMM, if it does it enforces the trade logic. Those inputs access the function contract's index and lockingbytecode to enforce the behaviour of the function contract.
+
+> **Note:** Only P2RS is implemented in the examples
 
 ----
 

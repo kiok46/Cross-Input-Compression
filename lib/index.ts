@@ -1,4 +1,5 @@
 import Main from './compiled/Main.js';
-import Function from './compiled/Function.js';
+import CrossInputCompressionP2RS from './compiled/CrossInputCompressionP2RS.js';
+import CrossInputCompressionIndex from './compiled/CrossInputCompressionIndex.js';
 
-export { Main, Function };
+export { Main, CrossInputCompressionP2RS, CrossInputCompressionIndex };

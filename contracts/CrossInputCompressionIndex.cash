@@ -1,0 +1,39 @@
+pragma cashscript 0.11.4;
+
+// Cross Input Compression via Indexes
+contract CrossInputCompressionIndex() {
+
+  function execute(bytes indexes) {
+    require(tx.version == 2);
+
+    require(indexes.length % 2 == 0);
+
+    // LOOPED
+    // Loop starts from 0 to totalIndexes
+    // int totalIndexes = indexes.length / 2;
+    // for (int i = 0; i < totalIndexes; i++) {
+    int i = 0;
+    
+    i = i*2;
+    bytes InputIndexBytes = indexes.slice(i, i + 2);
+    int InputIndex = int(InputIndexBytes);
+
+    // Trade logic
+    require(tx.outputs[InputIndex].tokenCategory == tx.inputs[InputIndex].tokenCategory);
+    require(tx.outputs[InputIndex].lockingBytecode == tx.inputs[InputIndex].lockingBytecode);
+  
+    int inputSat = tx.inputs[InputIndex].value;
+    int outputSat = tx.outputs[InputIndex].value;
+    int fee = (abs(outputSat - inputSat) * 3) / 1000;
+
+    int outputValueAfterFee = outputSat - fee;
+
+    int inputTokenValue = tx.inputs[InputIndex].tokenAmount;
+    int outputTokenValue = tx.outputs[InputIndex].tokenAmount;
+
+    int effectiveK = outputValueAfterFee * outputTokenValue;
+    int targetK = inputSat * inputTokenValue;
+
+    require(effectiveK >= targetK);
+  }
+}

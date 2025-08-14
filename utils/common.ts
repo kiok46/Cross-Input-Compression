@@ -7,6 +7,8 @@ import {
 	deriveSeedFromBip39Mnemonic,
 	binToHex,
 	hexToBin,
+	padMinimallyEncodedVmNumber,
+	bigIntToVmNumber,
 } from '@bitauth/libauth';
 import { SignatureTemplate, randomNFT } from 'cashscript';
 
@@ -42,3 +44,8 @@ export const bobPkh = hash160(bobPub);
 export const bobAddress = encodeCashAddress({ prefix: 'bchtest', type: 'p2pkh', payload: bobPkh, throwErrors: true }).address;
 export const bobTokenAddress = encodeCashAddress({ prefix: 'bchtest', type: 'p2pkhWithTokens', payload: bobPkh, throwErrors: true }).address;
 export const bobTemplate = new SignatureTemplate(bobPriv);
+
+export const padVmNumber = (num: bigint, length: number): string =>
+{
+	return binToHex(padMinimallyEncodedVmNumber(bigIntToVmNumber(num), length).slice(0, length));
+};
